@@ -50,20 +50,6 @@ class ParentNode(HTMLNode):
 
     def __init__(self, tag, children, props=None):
         super().__init__(tag, None, children, props)
-        self.result = '' 
-
-    def child_recursion(self, child):
-
-        if child == []:
-            #print(f'<> nothing left, no recursion')
-            return ''
-
-        #print(f'<< adding {child[0]} to self.result')
-        self.result += f'{child[0].to_html()}'
-        #print(f'>> sending {child[1:]} to recursion')
-        self.child_recursion(child[1:])
-
-        return self.result
 
     def to_html(self):
         if self.tag == None:
@@ -71,11 +57,11 @@ class ParentNode(HTMLNode):
         if self.children == None:
             raise ValueError("Invalid: no children")
 
-        res = ''
-        res += f'<{self.tag}>{self.child_recursion(self.children)}</{self.tag}>'
-
-        return res 
-
+        children_html = ''
+        for child in self.children:
+            children_html += child.to_html()
+            
+        return f'<{self.tag}{self.props_to_html()}>{children_html}</{self.tag}>'
 
     def __repr__(self):
-        return f'ParentNode({self.tag}, {self.children}, {self.props})'
+        return f'ParentNode({self.tag}, children: {self.children}, {self.props})'

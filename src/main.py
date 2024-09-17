@@ -36,9 +36,11 @@ def main():
     ],
 ) 
 
-    print(h)
-    print(f'ParentNode: {h.to_html()}') 
+    i = ParentNode("p", [ParentNode("u", [LeafNode(None, "internal leaf text")]), LeafNode(None, "normal text")])
 
+    print(h)
+    print(f'ParentNode: {h.to_html()}\n') 
+    print(f'ParentNode: {i.to_html()}\n') 
 
 
 if __name__ == "__main__":
