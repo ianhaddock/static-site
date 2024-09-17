@@ -1,5 +1,5 @@
 from textnode import TextNode 
-from htmlnode import HTMLNode, LeafNode
+from htmlnode import HTMLNode, LeafNode, ParentNode
 
 
 
@@ -24,7 +24,22 @@ def main():
 
     print(f'Leaf Node: {e.to_html()}')
     print(f'Leaf Node: {f.to_html()}')
-    print(f'Leaf Node: {g.to_html()}')
+    print(f'Leaf Node: {g.to_html()}\n\n')
+
+    h = ParentNode(
+    "p",
+    [
+        LeafNode("b", "Bold text"),
+        LeafNode(None, "Normal text"),
+        LeafNode("i", "italic text"),
+        LeafNode(None, "Normal text"),
+    ],
+) 
+
+    print(h)
+    print(f'ParentNode: {h.to_html()}') 
+
+
 
 if __name__ == "__main__":
     main()
