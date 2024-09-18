@@ -1,6 +1,5 @@
-from textnode import TextNode 
+from textnode import TextNode, text_node_to_html_node 
 from htmlnode import HTMLNode, LeafNode, ParentNode
-
 
 
 def main():
@@ -40,7 +39,35 @@ def main():
 
     print(h)
     print(f'ParentNode: {h.to_html()}\n') 
-    print(f'ParentNode: {i.to_html()}\n') 
+    print(f'ParentNode: {i.to_html()}\n\n')
+
+    print('## textnode to htmlnode ##\n')
+
+    j = TextNode('plain text node', 'text')
+    test2 = text_node_to_html_node(j)
+    print(f'<=> {test2.to_html()}')
+
+    k = TextNode('bold text node', 'bold')
+    test1 = text_node_to_html_node(k)
+    print(f'<=> {test1.to_html()}') 
+
+    l = TextNode('italic text node', 'italic')
+    test3 = text_node_to_html_node(l)
+    print(f'<=> {test3.to_html()}')
+
+    m = TextNode('code text node', 'code')
+    test4 = text_node_to_html_node(m)
+    print(f'<=> {test4.to_html()}')
+
+    n = TextNode('link text node', 'link', 'http://www.example.com')
+    test5 = text_node_to_html_node(n)
+    print(f'<=> {test5.to_html()}')
+
+    # <img src="pic_trulli.jpg" alt="Italian Trulli"> 
+    o = TextNode('image text node', 'image', 'http://www.example.com')
+    test6 = text_node_to_html_node(o)
+    print(f'<=> {test6.to_html()}') 
+
 
 
 if __name__ == "__main__":
