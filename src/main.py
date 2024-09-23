@@ -1,10 +1,22 @@
 from textnode import TextNode, text_node_to_html_node 
 from htmlnode import HTMLNode, LeafNode, ParentNode
+from splitnode import split_nodes_delimiter
+
+from textnode import (
+    TextNode,
+    text_type_text,
+    text_type_bold,
+    text_type_italic,
+    text_type_code,
+    text_type_image,
+    text_type_link,
+    text_node_to_html_node
+    )
 
 
 def main():
 
-    print('running main.py')
+    print('running main.py\n')
 
     a = TextNode('text node', 'bold', 'https://www.example.com')
     b = TextNode('text node', 'bold', 'https://www.example.com')
@@ -23,7 +35,7 @@ def main():
 
     print(f'Leaf Node: {e.to_html()}')
     print(f'Leaf Node: {f.to_html()}')
-    print(f'Leaf Node: {g.to_html()}\n\n')
+    print(f'Leaf Node: {g.to_html()}\n')
 
     h = ParentNode(
     "p",
@@ -38,10 +50,10 @@ def main():
     i = ParentNode("p", [ParentNode("u", [LeafNode(None, "internal leaf text")]), LeafNode(None, "normal text")])
 
     print(h)
-    print(f'ParentNode: {h.to_html()}\n') 
-    print(f'ParentNode: {i.to_html()}\n\n')
+    print(f'ParentNode: {h.to_html()}') 
+    print(f'ParentNode: {i.to_html()}')
 
-    print('## textnode to htmlnode ##\n')
+    print('\n\n## textnode to htmlnode ##\n')
 
     j = TextNode('plain text node', 'text')
     test2 = text_node_to_html_node(j)
@@ -69,6 +81,23 @@ def main():
     print(f'<=> {test6.to_html()}') 
 
 
+    print('\n\n## Split Delimiter ##\n') 
+
+    node0 = TextNode("This is text with a `code block` word", text_type_text)
+    new_nodes = split_nodes_delimiter([node0], "`", text_type_code)
+    print(new_nodes)
+ 
+    node1 = TextNode("This is text with no modifer words", text_type_text)
+    new_nodes = split_nodes_delimiter([node1], "*", text_type_italic)
+    print(new_nodes)
+ 
+    node2 = TextNode("This is first text with a **big old bold** block", text_type_text)
+    node3 = TextNode("This is second text with a **big old bold** block", text_type_text)
+    new_nodes = split_nodes_delimiter([node2, node3], "**", text_type_bold)
+    print(new_nodes)
+ 
+    new_nodes = split_nodes_delimiter([node0, node1, node2, node3], "`", text_type_code)
+    print(f'>> {new_nodes}')
 
 if __name__ == "__main__":
     main()
