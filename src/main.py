@@ -1,7 +1,15 @@
-from textnode import TextNode, text_node_to_html_node 
-from htmlnode import HTMLNode, LeafNode, ParentNode
-from splitnode import split_nodes_delimiter
-
+from textnode import (
+    TextNode, 
+    text_node_to_html_node
+    ) 
+from htmlnode import (
+    HTMLNode, 
+    LeafNode, 
+    ParentNode
+    )
+from inline_markdown import (
+    split_nodes_delimiter
+    )
 from textnode import (
     TextNode,
     text_type_text,
