@@ -208,6 +208,13 @@ def main():
 #    ]
 
 
+    text = "This is just text" 
+    new_nodes = text_to_textnodes(text)
+    print(new_nodes) 
+
+#   [
+#   TextNode(This is just text, text, None)
+#   ]
 
 if __name__ == "__main__":
     main()

@@ -220,6 +220,15 @@ class TestInlineMarkdown(unittest.TestCase):
             new_node
         )
 
+    def test_text_to_textnode_just_plain_text(self):
+        text = "This is just text" 
+        new_node = text_to_textnodes(text)
+        self.assertEqual( 
+            [
+            TextNode("This is just text", text_type_text, None)
+            ],
+            new_node
+        )
 
 
 if __name__ == '__main__':
