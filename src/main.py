@@ -12,7 +12,8 @@ from inline_markdown import (
     extract_markdown_images,
     extract_markdown_links,
     split_nodes_image,
-    split_nodes_link
+    split_nodes_link,
+    text_to_textnodes
     )
 from textnode import (
     TextNode,
@@ -186,8 +187,25 @@ def main():
 
 
 
+    print(f'\n\n## text to textnodes ##\n\n')
+
+    text = "This is **text** with an *italic* word and a `code block` and an ![obi wan image](https://i.imgur.com/fJRm4Vk.jpeg) and a [link](https://boot.dev)" 
+    new_nodes = text_to_textnodes(text)
+    print(new_nodes) 
 
 
+#    [
+#    TextNode(This is , text, None),
+#    TextNode(text, bold, None), 
+#    TextNode( with an , text, None), 
+#    TextNode(italic, italic, None), 
+#    TextNode( word and a , text, None), 
+#    TextNode(code block, code, None), 
+#    TextNode( and an !, text, None), 
+#    TextNode(obi wan image, link, https://i.imgur.com/fJRm4Vk.jpeg), 
+#    TextNode( and a , text, None), 
+#    TextNode(link, link, https://boot.dev)
+#    ]
 
 
 
