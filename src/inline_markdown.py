@@ -143,8 +143,6 @@ def split_nodes_link(old_nodes):
 
 
 
-
-
 def text_to_textnodes(text):
     """ convert string of text to list of TextNodes"""
 
@@ -157,4 +155,33 @@ def text_to_textnodes(text):
     node = split_nodes_delimiter(node, "`", text_type_code)
 
     return node
+
+
+
+def markdown_to_blocks(markdown):
+    """ takes raw markdown string and returns block strings """
+
+    block_strings = markdown.split('\n\n')
+
+    strings = []
+
+    for block in block_strings:
+        if block != "":
+            strings.append(block.strip())
+
+    return strings
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

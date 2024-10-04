@@ -13,7 +13,8 @@ from inline_markdown import (
     extract_markdown_links,
     split_nodes_image,
     split_nodes_link,
-    text_to_textnodes
+    text_to_textnodes,
+    markdown_to_blocks
     )
 from textnode import (
     TextNode,
@@ -187,7 +188,7 @@ def main():
 
 
 
-    print(f'\n\n## text to textnodes ##\n\n')
+    print(f'\n\n## text to textnodes ##\n')
 
     text = "This is **text** with an *italic* word and a `code block` and an ![obi wan image](https://i.imgur.com/fJRm4Vk.jpeg) and a [link](https://boot.dev)" 
     new_nodes = text_to_textnodes(text)
@@ -215,6 +216,44 @@ def main():
 #   [
 #   TextNode(This is just text, text, None)
 #   ]
+
+
+    print(f'\n\n## markdown to blocks ##\n')
+
+    text = "# This is a heading\n\
+\n\
+   This is a paragraph of text. It has some **bold** and *italic* words inside of it.  \n\
+\n\
+* This is the first list item in a list block\n\
+* This is a list item\n\
+* This is another list item"
+
+    new_node = markdown_to_blocks(text)
+    print(new_node)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 if __name__ == "__main__":
     main()
