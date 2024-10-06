@@ -148,40 +148,11 @@ def text_to_textnodes(text):
 
     node = [TextNode(text, text_type_text)]
 
-    node = split_nodes_image(node)
+    node = split_nodes_image(node) # should be run before split_nodes_link
     node = split_nodes_link(node)
     node = split_nodes_delimiter(node, "**", text_type_bold)
     node = split_nodes_delimiter(node, "*", text_type_italic)
     node = split_nodes_delimiter(node, "`", text_type_code)
 
     return node
-
-
-
-def markdown_to_blocks(markdown):
-    """ takes raw markdown string and returns block strings """
-
-    block_strings = markdown.split('\n\n')
-
-    strings = []
-
-    for block in block_strings:
-        if block != "":
-            strings.append(block.strip())
-
-    return strings
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

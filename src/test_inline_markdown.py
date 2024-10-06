@@ -6,7 +6,6 @@ from inline_markdown import (
     split_nodes_image,
     split_nodes_link,
     text_to_textnodes,
-    markdown_to_blocks
     )
 from textnode import (
     TextNode,
@@ -230,29 +229,6 @@ class TestInlineMarkdown(unittest.TestCase):
             ],
             new_node
         )
-
-
-
-    def test_markdown_to_blocks(self):
-        text = "# This is a heading\n\
-\n\
-   This is a paragraph of text. It has some **bold** and *italic* words inside of it.  \n\
-\n\
-* This is the first list item in a list block\n\
-* This is a list item\n\
-* This is another list item"
-        new_node = markdown_to_blocks(text)
-        self.assertEqual(
-            [
-                '# This is a heading', 
-                'This is a paragraph of text. It has some **bold** and *italic* words inside of it.', 
-                '* This is the first list item in a list block\n* This is a list item\n* This is another list item'
-            ],
-            new_node
-        )
-
-
-
 
 
 

@@ -14,7 +14,6 @@ from inline_markdown import (
     split_nodes_image,
     split_nodes_link,
     text_to_textnodes,
-    markdown_to_blocks
     )
 from textnode import (
     TextNode,
@@ -25,6 +24,10 @@ from textnode import (
     text_type_image,
     text_type_link,
     text_node_to_html_node
+    )
+from markdown_to_blocks import (
+    markdown_to_blocks,
+    block_to_block_type
     )
 
 
@@ -187,13 +190,11 @@ def main():
     print(new_nodes)
 
 
-
     print(f'\n\n## text to textnodes ##\n')
 
     text = "This is **text** with an *italic* word and a `code block` and an ![obi wan image](https://i.imgur.com/fJRm4Vk.jpeg) and a [link](https://boot.dev)" 
     new_nodes = text_to_textnodes(text)
     print(new_nodes) 
-
 
 #    [
 #    TextNode(This is , text, None),
@@ -207,7 +208,6 @@ def main():
 #    TextNode( and a , text, None), 
 #    TextNode(link, link, https://boot.dev)
 #    ]
-
 
     text = "This is just text" 
     new_nodes = text_to_textnodes(text)
@@ -224,14 +224,33 @@ def main():
 \n\
    This is a paragraph of text. It has some **bold** and *italic* words inside of it.  \n\
 \n\
+ ```this is some code```\n\
+\n\
 * This is the first list item in a list block\n\
 * This is a list item\n\
-* This is another list item"
+* This is another list item\n\
+\n\
+> This is a quote line 1\n\
+> This is a quote line 2\n\
+> This is a quote line 3\n\
+\n\
+This is a para.\n\
+\n\
+1. This is an ordered list line 1\n\
+2. This is an ordered list line 2\n\
+3. This is an ordered list line 3\n\
+\n\
+THis is another para"
 
     new_node = markdown_to_blocks(text)
     print(new_node)
 
 
+    print(f'\n\n## block types ##\n')
+
+    for node in new_node:
+        block_type = block_to_block_type(node)
+        print(block_type)
 
 
 
