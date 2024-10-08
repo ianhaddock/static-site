@@ -240,7 +240,26 @@ This is a para.\n\
 2. This is an ordered list line 2\n\
 3. This is an ordered list line 3\n\
 \n\
-THis is another para"
+## THis is another heading\n\
+\n\
+### This is a third heading\n\
+\n\
+#### THis is a forth heading\n\
+\n\
+##### This is a fifth heading\n\
+\n\
+###### This is a sixth heading\n\
+\n\
+THis is a para\n\
+\n\
+```This is a code block that spans\n\
+two lines ```\n\
+\n\
+1. THis is a broken ordered list\n\
+3. THis is a broken orderd list 2\n\
+4. This is a borken ordere list 3\n\
+\n\
+THis is a para"
 
     new_node = markdown_to_blocks(text)
     print(new_node)

@@ -1,9 +1,9 @@
 
 
 block_type_paragraph = "paragraph"
-block_type_heading = "heading"
-block_type_code = "code"
-block_type_quote = "quote"
+block_type_heading = ['# ', '## ', '### ', '#### ', '##### ', '###### ']
+block_type_code = "```"
+block_type_quote = ">"
 block_type_unordered_list = "unordered list"
 block_type_ordered_list = "ordered list"
 
@@ -25,55 +25,24 @@ def markdown_to_blocks(markdown: str) -> list:
 def block_to_block_type(block: str) -> str:
     """ takes block of markdown and returns block type """
 
-    headings = ['# ', '## ', '### ', '#### ', '##### ', '###### ']
-
     block_types = {
         'block_type_heading': ['# ', '## ', '### ', '#### ', '##### ', '###### '],
-        'block_type_code': ['```'],
-        'block_type_quote': ['>'],
-        'block_type_unordered_list': ['* ', '- ']
+        'block_type_code': '```',
+        'block_type_quote': '>',
+        'block_type_unordered_list': ['* ', '- ', '+ ']
         }
 
 
-    print(f'<<>> {block}') 
-
-    for heading in block_types['block_type_heading']:
-        if heading in block:
-            return block_type_heading
-
-    code = block_types['block_type_code'][0] 
-    if code in block[:3] and code in block[-3:]:
-        return block_type_code
-            
+#    print(f'<<>> {block}') 
     lines = block.splitlines()
-    unordered_list = True 
-    for line in lines:
-        if block_types['block_type_unordered_list'][0] in line[:2]:
-            continue
-        else:
-            unordered_list = False
-    if unordered_list == True:
-        return block_type_unordered_list
 
-    unordered_list = True 
-    for line in lines:
-        if block_types['block_type_unordered_list'][1] in line[:2]:
-            continue
-        else:
-            unordered_list = False
-            continue
-    if unordered_list == True:
-        return block_type_unordered_list
+    for heading in block_type_heading:
+        if heading == block[:len(heading)]:
+            return 'block_type_heading'
 
-    quote_block = True
-    for line in lines:
-        if block_types['block_type_quote'][0] in line[:1]:
-            continue
-        else:
-            quote_block = False
-    if quote_block == True:
-        return block_type_quote
-
+    if block_type_code == block[:3] and block_type_code == block[-3:]:
+        return 'block_type_code'
+            
     ordered_list = True
     line_number = 1
     for line in lines:
@@ -83,14 +52,50 @@ def block_to_block_type(block: str) -> str:
         else:
             ordered_list =  False    
     if ordered_list == True:
-        return block_type_ordered_list
+        return 'block_type_ordered_list'
 
-
-
-
-
-
-
-
+    # this solves unordered lists and quote blocks - but too code golf?
+    for block_type, values in block_types.items():
+        check = True
+        for value in values:
+            for line in lines:
+               # print(f'{value} >> {line[:len(value)-1]}') 
+                if value == line[:len(value)]:
+                    continue
+                else:
+                    check = False
+            if check == True:
+                return block_type
 
     return block_type_paragraph    
+
+#        print(f'{block_type} >>>> {values}')
+
+#    unordered_list = True 
+#    for line in lines:
+#        if block_types['block_type_unordered_list'][0] in line[:2]:
+#            continue
+#        else:
+#            unordered_list = False
+#    if unordered_list == True:
+#        return 'block_type_unordered_list'
+#
+#    unordered_list = True 
+#    for line in lines:
+#        if block_types['block_type_unordered_list'][1] in line[:2]:
+#            continue
+#        else:
+#            unordered_list = False
+#            continue
+#    if unordered_list == True:
+#        return 'block_type_unordered_list'
+#
+#    quote_block = True
+#    for line in lines:
+#        if block_types['block_type_quote'] in line[:1]:
+#            continue
+#        else:
+#            quote_block = False
+#    if quote_block == True:
+#        return 'block_type_quote'
+#
