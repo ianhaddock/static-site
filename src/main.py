@@ -29,7 +29,9 @@ from markdown_to_blocks import (
     markdown_to_blocks,
     block_to_block_type
     )
-
+from markdown_to_html import (
+    markdown_to_html_node
+    )
 
 def main():
 
@@ -265,14 +267,20 @@ THis is a para"
     print(new_node)
 
 
-    print(f'\n\n## block types ##\n')
+    print(f'\n\n## resulting block types ##\n')
 
     for node in new_node:
         block_type = block_to_block_type(node)
         print(block_type)
 
 
+    print(f'/n/n ## markdown to html node ## \n')
 
+    input_markdown = "# Heading 1\n\n## Heading 2\n\n### Heading 3\n\nParagraph One. No modifiers.\n\n```code goes here```\n\n\
+            Para two with *bold text* and _italics_ and stuff\n\n* Unordered List Item One\n* Unordered list Item two\n\
+            * Unordered LIst Number Three\n\n"
+
+    print(markdown_to_html_node(input_markdown))
 
 
 

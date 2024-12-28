@@ -83,6 +83,7 @@ THis is a para"
             ],
         )
 
+
     def test_block_to_block_type_quote(self):
 
         text = "> This is a quote line 1\n\
@@ -103,6 +104,7 @@ This is a para."
             ]
         )
 
+
     def test_block_to_block_type_ordered_list(self):
 
         text = "1. This is an ordered list line 1\n\
@@ -119,19 +121,6 @@ This is a para."
                 "block_type_ordered_list"
             ]
         )
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 if __name__ == '__main__':
