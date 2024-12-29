@@ -13,7 +13,7 @@ from inline_markdown import (
     extract_markdown_links,
     split_nodes_image,
     split_nodes_link,
-    text_to_textnodes,
+    text_to_textnodes
     )
 from textnode import (
     TextNode,
@@ -276,16 +276,37 @@ THis is a para"
 
     print(f'/n/n ## markdown to html node ## \n')
 
-    input_markdown = "# Heading 1\n\n## Heading 2\n\n### Heading 3\n\nParagraph One. No modifiers.\n\n```code goes here```\n\n\
+    input_markdown = "# Heading 1 with *bold* text\n\n## Heading 2\n\n### Heading 3\n\nParagraph One. No modifiers.\n\n```code goes here```\n\n\
             Para two with *bold text* and _italics_ and stuff\n\n* Unordered List Item One\n* Unordered list Item two\n\
-            * Unordered LIst Number Three\n\n"
+            * Unordered LIst Number Three\n\n\
+            > quote line one\n\
+            > quote line two\n\
+            > quote line three\n\n"
 
-    print(markdown_to_html_node(input_markdown))
+    output_markdown = markdown_to_html_node(input_markdown)
 
+    print(type(output_markdown))
+    print(output_markdown)
+    out = output_markdown.to_html()
+    print(out)
 
+    print(f'\n\n### same as above\n')
+    string = "This *is* all **the** weird `code` stuff in one line"
+    print(string)
 
+    text_nodes = text_to_textnodes(string)
+    html_nodes = []
+    output = ''
 
+    for node in text_nodes:
+        html_nodes.append(text_node_to_html_node(node))
 
+    print(html_nodes)
+
+    for node in html_nodes:
+        output += str(node.to_html())
+
+    print(output)
 
 
 
