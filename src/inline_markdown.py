@@ -93,7 +93,7 @@ def split_nodes_image(old_nodes):
 
 
 
-def split_nodes_link(old_nodes):
+def split_nodes_link(old_nodes: list) -> list:
     
     new_nodes = []
     new_text = []
@@ -137,13 +137,13 @@ def split_nodes_link(old_nodes):
                 new_nodes.append(new_links[i])
             except:
                 pass
-
         #print(f'<>> {list(zip(new_links, new_text))} ')
+        
     return new_nodes
 
 
 
-def text_to_textnodes(text):
+def text_to_textnodes(text) -> list:
     """ convert string of text to list of TextNodes"""
 
     node = [TextNode(text, text_type_text)]
