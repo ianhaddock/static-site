@@ -1,4 +1,4 @@
-
+import re
 
 block_type_paragraph = "paragraph"
 block_type_heading = ['# ', '## ', '### ', '#### ', '##### ', '###### ']
@@ -42,12 +42,12 @@ def block_to_block_type(block: str) -> str:
 
     if block_type_code == block[:3] and block_type_code == block[-3:]:
         return 'block_type_code'
-            
+
     ordered_list = True
-    line_number = 1
     for line in lines:
-        if f'{line_number}. ' in line[:3]:
-            line_number += 1
+        #  regex: if line start with one or more numbers, a period and a space
+        #  then its flagged as a ordered list item.
+        if re.findall(r"^[0-9]+\. ", line):
             continue
         else:
             ordered_list =  False    
