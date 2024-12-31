@@ -10,20 +10,6 @@ from markdown_to_html import (
 class TestMarkdownToHTML(unittest.TestCase):
 
 
-#      def test_text_to_children(self):
-#          text =\
-#  "This is a paragraph with *lots* of **interesting** kinds of text and a `code block` and an \
-#  ![obi wan image](https://i.imgur.com/fJRm4Vk.jpeg) and a [link](https://boot.dev)"
-#          new_node = text_to_children(text)
-#  
-#          self.assertEqual(
-#                  new_node.to_html(),
-#  '<p>This is a paragraph with <i>lots</i> of <b>interesting</b> \
-#  kinds of text and a <code>code block</code> and an <img src="https://i.imgur.com/fJRm4Vk.jpeg" \
-#  alt="obi wan image"> and a <a href="https://boot.dev">link</a></p>'
-#                  )
-
-
     def test_markdown_to_html_code_block(self):
         text =\
 "```code with **bold** is werid main```\n\n"
@@ -101,15 +87,17 @@ alt="obi wan image"> and a <a href="https://boot.dev">link</a></p></div>'
 
 
     def test_markdown_to_html_blockquote(self):
-        text =\
-"> quote `line` one\n\
-> quote *line* two\n\
-> quote **line** three\n\n"
+        text = """
+> quote `line` one
+> quote *line* two
+> quote **line** three
+"""
 
         new_node = markdown_to_html_node(text)
 
         self.assertEqual(
         new_node.to_html(),
-"<div><blockquote>quote <code>line</code> onequote <i>line</i> twoquote <b>line</b> \
-three</blockquote></div>"
+"<div><blockquote>quote <code>line</code> one quote <i>line</i> two quote <b>line</b> three</blockquote></div>"
+
+
         )

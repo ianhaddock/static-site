@@ -79,7 +79,7 @@ THis is a para"
                 "block_type_heading",
                 "block_type_heading",
                 "block_type_heading",
-                "paragraph"
+                "block_type_paragraph"
             ],
         )
 
@@ -100,7 +100,7 @@ This is a para."
             results,
             [
                 "block_type_quote",
-                "paragraph"
+                "block_type_paragraph"
             ]
         )
 
@@ -121,6 +121,12 @@ This is a para."
                 "block_type_ordered_list"
             ]
         )
+
+
+    def test_block_to_block_type_paragraph(self):
+        text = "this is a simple paragraph"
+
+        self.assertEqual(block_to_block_type(text), 'block_type_paragraph')
 
 
 if __name__ == '__main__':

@@ -32,7 +32,6 @@ def block_to_block_type(block: str) -> str:
         'block_type_unordered_list': ['* ', '- ', '+ ']
         }
 
-
 #    print(f'<<>> {block}') 
     lines = block.splitlines(keepends=False)
 
@@ -45,8 +44,8 @@ def block_to_block_type(block: str) -> str:
 
     ordered_list = True
     for line in lines:
-        #  regex: if line start with one or more numbers, a period and a space
-        #  then its flagged as a ordered list item.
+        ###  regex: if line start with one or more numbers, a period and a space
+        ###  then its flagged as a ordered list item.
         if re.findall(r"^[0-9]+\. ", line):
             continue
         else:
@@ -54,7 +53,7 @@ def block_to_block_type(block: str) -> str:
     if ordered_list == True:
         return 'block_type_ordered_list'
 
-    # this solves unordered lists and quote blocks - but too code golf?
+    ### this solves unordered lists and quote blocks - but too code golf?
     for block_type, values in block_types.items():
         check = True
         for value in values:
@@ -67,9 +66,8 @@ def block_to_block_type(block: str) -> str:
             if check == True:
                 return block_type
 
-    return block_type_paragraph    
+    return 'block_type_paragraph'
 
-#        print(f'{block_type} >>>> {values}')
 
 #    unordered_list = True 
 #    for line in lines:

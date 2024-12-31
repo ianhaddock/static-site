@@ -289,6 +289,13 @@ THis is a para"
 11. Ordered list `item` one\n\
 12. Ordered list *item* two\n\
 13. Ordered list **item** three\n\n\
+Paragraph two, with multiple lines.\n\
+Like this line, which is line two.\n\n\
+```\n\
+Longer code block\n\
+With multiple lines\n\
+This is line three.\n\
+```\n\n\
 * Unordered List **Item** One\n\
 * Unordered list *Item* two\n\
 * Unordered List `Item` Three\n\n\

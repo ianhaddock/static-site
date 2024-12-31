@@ -1,19 +1,19 @@
-import re
-from htmlnode import HTMLNode, LeafNode, ParentNode
-from markdown_to_blocks import markdown_to_blocks, block_to_block_type
+# markdown_to_html.py
 
+import re
+from htmlnode import (
+    ParentNode
+    )
+from markdown_to_blocks import (
+    markdown_to_blocks,
+    block_to_block_type
+    )
 from inline_markdown import (
-    split_nodes_delimiter,
-    extract_markdown_images,
-    extract_markdown_links,
-    split_nodes_image,
-    split_nodes_link,
     text_to_textnodes
     )
 from textnode import (
-    TextNode, 
     text_node_to_html_node
-    ) 
+    )
 
 block_type_paragraph = "paragraph"
 block_type_heading = ['# ', '## ', '### ', '#### ', '##### ', '###### ']
@@ -23,18 +23,7 @@ block_type_unordered_list = "unordered list"
 block_type_ordered_list = "ordered list"
 
 
-#  ParentNode(
-#          "h2",
-#          [
-#              LeafNode("b", "Bold text"),
-#              LeafNode(None, "Normal text"),
-#              LeafNode("i", "italic text"),
-#              LeafNode(None, "Normal text"),
-#          ],
-#      )
-
-
-def markdown_to_html_node(markdown: str) -> list:
+def markdown_to_html_node_old_monolith(markdown: str) -> list:
     """ coverts a full markdown document into a single parent HTMLNode """
 
     blocks = markdown_to_blocks(markdown)
@@ -48,42 +37,150 @@ def markdown_to_html_node(markdown: str) -> list:
             nodes_list.append(node)
 
         elif block_to_block_type(block) == 'block_type_code':
-            clean_block = '<code>' + block.strip('```') + '</code>'
-            node = ParentNode('pre', text_to_children(clean_block))
+            code = []
+            if not block.startswith('```') or not block.endswith('```'):
+                raise ValueError("Invalid code block")
+            code.append(ParentNode('code', text_to_children(block.strip('```'))))
+            node = ParentNode('pre', code)
             nodes_list.append(node)
 
         elif block_to_block_type(block) == 'block_type_quote':
             block_list = block.splitlines(keepends=False)
-            clean_list = ''
+            clean_list = []
             for line in block_list:
-                clean_list += line.strip('> ')
-            node = ParentNode('blockquote', text_to_children(clean_list))
+                if not line.startswith('> '):
+                    raise ValueError("Quote block is invalid")
+                clean_list.append(line.strip('> '))
+            clean_quote = " ".join(clean_list)
+            node = ParentNode('blockquote', text_to_children(clean_quote))
             nodes_list.append(node)
 
         elif block_to_block_type(block) == 'block_type_unordered_list':
             block_list = block.splitlines(keepends=False)
-            clean_list = ''
+            clean_list = []
             for line in block_list:
-                clean_list += '<li>' + line.strip('* ') + '</li>'
-            node = ParentNode('ul', text_to_children(clean_list))
+                clean_line = line.strip('* ')
+                clean_list.append(ParentNode("li", text_to_children(clean_line)))
+            node = ParentNode('ul', clean_list)
             nodes_list.append(node)
 
         elif block_to_block_type(block) == 'block_type_ordered_list':
             block_list = block.splitlines(keepends=False)
-            clean_list = ''
+            clean_list = []
             for line in block_list:
-                # regex: remove one or more digits + '. ' at beginning of line
-                clean_list += '<li>' + re.sub(r"\d+\. ", '', line) + '</li>'
-            node = ParentNode('ol', text_to_children(clean_list))
+                ### regex: remove one or more digits + '. ' at beginning of line
+                clean_line = re.sub(r"\d+\. ", "", line)
+                clean_list.append(ParentNode('li', text_to_children(clean_line)))
+            node = ParentNode('ol', clean_list)
             nodes_list.append(node)
 
-        else:  # when block type is regular text
-            node = ParentNode('p', text_to_children(block))
+        elif block_to_block_type(block) == 'block_type_paragraph':
+            lines = block.splitlines(keepends=False)
+            paragraph = "".join(lines)
+            node = ParentNode('p', text_to_children(paragraph))
             nodes_list.append(node)
+
+        else:
+            raise ValueError(f"Invalid block type: {block}")
 
         parent_node = ParentNode("div", nodes_list)
 
-    return parent_node    
+    return parent_node
+
+
+### running tests shows this isnt really any slower than the monolith version
+def markdown_to_html_node(markdown: str) -> object:
+    """ coverts a full markdown document into a single parent HTMLNode """
+
+    blocks = markdown_to_blocks(markdown)
+    nodes_list = []
+    for block in blocks:
+        nodes_list.append(block_to_html_node(block))
+
+    return ParentNode("div", nodes_list, None)
+
+
+def block_to_html_node(block: str) -> object:
+    """ converts markdown block to html LeafNode """
+
+    block_type = block_to_block_type(block)
+
+    if block_type == 'block_type_heading':
+        return heading_to_html_node(block)
+    elif block_type == 'block_type_code':
+        return code_to_html_node(block)
+    elif block_type == 'block_type_quote':
+        return quote_to_html_node(block)
+    elif block_type == 'block_type_unordered_list':
+        return unordered_list_to_html(block)
+    elif block_type == 'block_type_ordered_list':
+        return ordered_list_to_html(block)
+    elif block_type == 'block_type_paragraph':
+        return paragraph_to_html(block)
+    else:
+        raise ValueError(f"Invalid block type: {block}")
+
+
+def heading_to_html_node(block: str) -> object:
+    for heading in block_type_heading:
+        if block.startswith(heading):
+            node = ParentNode(f'h{len(heading)-1}', text_to_children(block[len(heading):]))
+
+    return node
+
+
+def code_to_html_node(block: str) -> object:
+    code = []
+    if not block.startswith('```') or not block.endswith('```'):
+        raise ValueError("Invalid code block")
+    code.append(ParentNode('code', text_to_children(block.strip('```'))))
+    node = ParentNode('pre', code)
+
+    return node
+
+
+def quote_to_html_node(block: str) -> object:
+    block_list = block.splitlines(keepends=False)
+    clean_list = []
+    for line in block_list:
+        if not line.startswith('> '):
+            raise ValueError("Quote block is invalid")
+        clean_list.append(line.strip('> '))
+    clean_quote = " ".join(clean_list)
+    node = ParentNode('blockquote', text_to_children(clean_quote))
+
+    return node
+
+
+def unordered_list_to_html(block: str) -> object:
+    block_list = block.splitlines(keepends=False)
+    clean_list = []
+    for line in block_list:
+        clean_line = line.strip('* ')
+        clean_list.append(ParentNode("li", text_to_children(clean_line)))
+    node = ParentNode('ul', clean_list)
+
+    return node
+
+
+def ordered_list_to_html(block: str) -> object:
+    block_list = block.splitlines(keepends=False)
+    clean_list = []
+    for line in block_list:
+        ### regex: remove one or more digits + '. ' at beginning of line
+        clean_line = re.sub(r"\d+\. ", "", line)
+        clean_list.append(ParentNode('li', text_to_children(clean_line)))
+    node = ParentNode('ol', clean_list)
+
+    return node
+
+
+def paragraph_to_html(block: str) -> object:
+    lines = block.splitlines(keepends=False)
+    paragraph = "".join(lines)
+    node = ParentNode('p', text_to_children(paragraph))
+
+    return node
 
 
 def text_to_children(text_block: str) -> list:
@@ -97,4 +194,3 @@ def text_to_children(text_block: str) -> list:
         html_leaf_nodes.append(text_node_to_html_node(node))
 
     return html_leaf_nodes
-
