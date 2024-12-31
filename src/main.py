@@ -274,23 +274,37 @@ THis is a para"
         print(block_type)
 
 
-    print(f'/n/n ## markdown to html node ## \n')
+    print(f'\n\n ## markdown to html node ## \n')
 
-    input_markdown = "# Heading 1 with *bold* text\n\n## Heading 2\n\n### Heading 3\n\nParagraph One. No modifiers.\n\n```code goes here```\n\n\
-            Para two with *bold text* and _italics_ and stuff\n\n* Unordered List Item One\n* Unordered list Item two\n\
-            * Unordered LIst Number Three\n\n\
-            > quote line one\n\
-            > quote line two\n\
-            > quote line three\n\n"
+    input_markdown = \
+            "# Heading 1 with *bold* text\n\n\
+            ## Heading 2\n\n\
+            ### Heading 3\n\n\
+            Paragraph One. No modifiers.\n\n\
+            ```code with **bold** is werid main```\n\n\
+            Para two with **bold text** and _italics_ and stuff\n\n\
+1. Ordered list `item` one\n\
+2. Ordered list *item* two\n\
+3. Ordered list **item** three\n\n\
+11. Ordered list `item` one\n\
+12. Ordered list *item* two\n\
+13. Ordered list **item** three\n\n\
+* Unordered List **Item** One\n\
+* Unordered list *Item* two\n\
+* Unordered List `Item` Three\n\n\
+> quote `line` one\n\
+> quote *line* two\n\
+> quote **line** three\n\n\
+This is **text** with an *italic* word and a `code block` and an ![obi wan image](https://i.imgur.com/fJRm4Vk.jpeg) and a [link](https://boot.dev)" 
 
     output_markdown = markdown_to_html_node(input_markdown)
 
     print(type(output_markdown))
-    print(output_markdown)
+    print(f'\n >> Output markdown: \n\n' + str(output_markdown))
     out = output_markdown.to_html()
-    print(out)
+    print(f'\n >> Output html: \n\n' + out)
 
-    print(f'\n\n### same as above\n')
+    print(f'\n\n### simplified version of the above\n')
     string = "This *is* all **the** weird `code` stuff in one line"
     print(string)
 
@@ -309,8 +323,23 @@ THis is a para"
     print(output)
 
 
+    text = "# This is a heading\n\n\
+ ## THis is another heading\n\n\
+ ### This is a third heading\n\n\
+ #### THis is a forth heading\n\n\
+ ##### This is a fifth heading\n\n\
+ ###### This is a sixth heading\n\n\
+ THis is a para"
 
+    out = markdown_to_html_node(text)
+    print(f'\n\n\n{out}\n\n')
+    print(out.to_html())
 
+    text = "This is a paragraph with *lots* of **interesting** kinds of text and a `code block` and an ![obi wan image](https://i.imgur.com/fJRm4Vk.jpeg) and a [link](https://boot.dev)" 
+
+    out = markdown_to_html_node(text)
+    #print(f'\n\n{out.to_html()}')
+    print(f'\n\n{out}')
 
 
 

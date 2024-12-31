@@ -34,7 +34,7 @@ def block_to_block_type(block: str) -> str:
 
 
 #    print(f'<<>> {block}') 
-    lines = block.splitlines()
+    lines = block.splitlines(keepends=False)
 
     for heading in block_type_heading:
         if heading == block[:len(heading)]:

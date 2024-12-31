@@ -1,3 +1,4 @@
+import re
 from htmlnode import HTMLNode, LeafNode, ParentNode
 from markdown_to_blocks import markdown_to_blocks, block_to_block_type
 
@@ -41,29 +42,44 @@ def markdown_to_html_node(markdown: str) -> list:
 
     for block in blocks:
         if block_to_block_type(block) == 'block_type_heading':
-            # html_leaf_nodes = text_to_children(block)
             for heading in block_type_heading:
                 if block.startswith(heading):
                     node = ParentNode(f'h{len(heading)-1}', text_to_children(block[len(heading):]))
-                    #node = text_to_children(block)
-                    #new_node_text = text_to_children(node.to_html())
             nodes_list.append(node)
 
         elif block_to_block_type(block) == 'block_type_code':
-            node = ParentNode('code', text_to_children(block.strip('```')))
+            clean_block = '<code>' + block.strip('```') + '</code>'
+            node = ParentNode('pre', text_to_children(clean_block))
             nodes_list.append(node)
+
         elif block_to_block_type(block) == 'block_type_quote':
-            node = ParentNode('quote', text_to_children(block.strip('>')))
+            block_list = block.splitlines(keepends=False)
+            clean_list = ''
+            for line in block_list:
+                clean_list += line.strip('> ')
+            node = ParentNode('blockquote', text_to_children(clean_list))
             nodes_list.append(node)
-      #  elif block_to_block_type(block) == 'block_type_unordered_list':
-      #      node = LeafNode('unordered_list', block.strip('* '))
-      #      nodes_list.append(node.to_html())
-      #  elif block_to_block_type(block) == 'block_type_ordered_list':
-      #      node = LeafNode('ordered_list', block)
-      #      nodes_list.append(node.to_html())
-      #  else:  # block type is regular text
-      #      node = LeafNode(None, block)
-      #      nodes_list.append(node.to_html())
+
+        elif block_to_block_type(block) == 'block_type_unordered_list':
+            block_list = block.splitlines(keepends=False)
+            clean_list = ''
+            for line in block_list:
+                clean_list += '<li>' + line.strip('* ') + '</li>'
+            node = ParentNode('ul', text_to_children(clean_list))
+            nodes_list.append(node)
+
+        elif block_to_block_type(block) == 'block_type_ordered_list':
+            block_list = block.splitlines(keepends=False)
+            clean_list = ''
+            for line in block_list:
+                # regex: remove one or more digits + '. ' at beginning of line
+                clean_list += '<li>' + re.sub(r"\d+\. ", '', line) + '</li>'
+            node = ParentNode('ol', text_to_children(clean_list))
+            nodes_list.append(node)
+
+        else:  # when block type is regular text
+            node = ParentNode('p', text_to_children(block))
+            nodes_list.append(node)
 
         parent_node = ParentNode("div", nodes_list)
 
