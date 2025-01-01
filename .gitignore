@@ -1,10 +1,13 @@
 # gitignore
 
+.DS_Store
+public/
+
+
+
+# python
 venv/
 *.log
 *~
 *.swp
-
 __pycache__/
-
-
