@@ -37,6 +37,9 @@ from markdown_to_html import (
 from copy_static import (
     recursive_copy
     )
+from generate_html import (
+    extract_title
+    )
 
 dir_path_static = "./static"
 dir_path_public = "./public"
@@ -52,7 +55,8 @@ def main():
     print("Copying static files to local public directory...")
     recursive_copy(dir_path_static, dir_path_public)
 
-
+    print("extracting header")
+    print(extract_title('content/index.md'))
 
 
 
