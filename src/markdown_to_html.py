@@ -90,7 +90,7 @@ def unordered_list_to_html(block: str) -> object:
     block_list = block.splitlines(keepends=False)
     clean_list = []
     for line in block_list:
-        clean_line = line.strip('* ')
+        clean_line = line[2:]
         clean_list.append(ParentNode("li", text_to_children(clean_line)))
     node = ParentNode('ul', clean_list)
 
