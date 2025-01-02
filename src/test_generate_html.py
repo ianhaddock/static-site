@@ -38,21 +38,21 @@ class TestGenerateHTMl(unittest.TestCase):
 
     def test_extract_title_match(self):
         self.assertEqual(
-            extract_title(os.path.join(test_directory, 'test_title_success.md')),
+            extract_title(f'\n\n# H1 Title\n\nThis is para text\n\n'),
             "H1 Title"
             )
 
 
     def test_extract_title_buried_match(self):
         self.assertEqual(
-            extract_title(os.path.join(test_directory, 'test_title_buried.md')),
+            extract_title(f'para text in front of only header\n\n# H1 Title\n\nThis is more para text\n\n'),
             "H1 Title"
             )
 
 
     def test_extract_title_fail(self):
         with self.assertRaises(Exception) as exception:
-            extract_title(os.path.join(test_directory, 'test_title_fail.md'))
+            extract_title(f'\n\n### H3 not H1 title\n\nThis is para text\n\n')
 
         #  self.assertEqual(exception.value, 'No H1 Header found')
 

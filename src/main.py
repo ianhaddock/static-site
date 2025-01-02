@@ -38,25 +38,27 @@ from copy_static import (
     recursive_copy
     )
 from generate_html import (
-    extract_title
+    extract_title,
+    generate_pages
     )
 
 dir_path_static = "./static"
 dir_path_public = "./public"
-
+dir_path_content = "./content"
+template_file = "./template.html"
 
 def main():
     """ main """
 
     if os.path.exists(dir_path_public):
-        print("Deleting local public directory....")
+        print(" > Deleting local public directory....")
         shutil.rmtree(dir_path_public)
 
-    print("Copying static files to local public directory...")
+    print(" > Copying static files to local public directory...")
     recursive_copy(dir_path_static, dir_path_public)
 
-    print("extracting header")
-    print(extract_title('content/index.md'))
+    print(" > Generating HTML pages...")
+    generate_pages(dir_path_content, template_file, dir_path_public)
 
 
 
