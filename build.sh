@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 
 echo ' >> starting src/main.sh'
-python3 src/main.py /
+python3 src/main.py https://github.com/ianhaddock/static-site/
 
 echo ' >> starting web server'
 cd public

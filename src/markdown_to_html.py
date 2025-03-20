@@ -65,6 +65,7 @@ def heading_to_html_node(block: str) -> object:
 
 def code_to_html_node(block: str) -> object:
     code = []
+
     if not block.startswith('```') or not block.endswith('```'):
         raise ValueError("Invalid code block")
     code.append(ParentNode('code', text_to_children(block.strip('```'))))
